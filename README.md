@@ -11,7 +11,7 @@ The pipeline automates:
 Everything runs **directly on GitHub Actions** (no Jenkins required), while **SonarQube runs on an AWS EC2 instance**.
 
 ---
-![img alt](https://github.com/hanumantrh/gitHub-action-hotstar/blob/main/image.png?raw=true)
+![img alt](https://github.com/hanumantrh/hotstar-github-actions/blob/main/image.png?raw=true)
 ---
 
 ---
