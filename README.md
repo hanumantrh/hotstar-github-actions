@@ -29,6 +29,8 @@ Here’s a step-by-step breakdown of what happens when you push code to this rep
 - SonarQube scans the code for **bugs, vulnerabilities, and code smells**.
 - Results are available in the SonarQube dashboard.
 
+> **Access SonarQube UI:** `http://<EC2-IP>:9000` (default credentials: admin/admin – change on first login).
+
 ---
 
 ### **3. Build Docker Image**
@@ -43,7 +45,7 @@ Here’s a step-by-step breakdown of what happens when you push code to this rep
 
 ---
 
-### **5. Deployment on EC2 (Optional)**
+### **5. Deployment on EC2 **
 - EC2 can **pull the Docker image** from Docker Hub and run it as a container for testing or production.
 
 ---
@@ -58,6 +60,7 @@ Here’s a step-by-step breakdown of what happens when you push code to this rep
 
 ## **Architecture**
 
+```text
 Developer → GitHub → GitHub Actions → SonarQube (EC2)
                                       ↓
                                Docker Build
@@ -69,14 +72,13 @@ Developer → GitHub → GitHub Actions → SonarQube (EC2)
                               Email Notification
 
 
-## Table of Contents
+## Prerequisites
 
-- [Ports to Enable in Security Group](#ports-to-enable-in-security-group)
-- [Prerequisites](#prerequisites)
-- [System Update & Common Packages](#system-update--common-packages)
-- [Docker](#docker)
-- [SonarQube (Docker)](#sonarqube-docker)
-- [npm Installation](#npm-installation)
+- Ubuntu server (20.04+ recommended)
+- GitHub repository with .github/workflows/manage.yml
+- AWS EC2 instance for SonarQube
+- Docker Hub account for pushing images
+- Email account with app password for notifications
 
 
 
@@ -115,7 +117,7 @@ sudo apt install git -y
 
 ---
 
-## Docker
+## Docker Installation
 
 Official docs: [https://docs.docker.com/engine/install/ubuntu/](https://docs.docker.com/engine/install/ubuntu/)
 
@@ -162,8 +164,9 @@ docker run -d --name sonarqube \
   sonarqube:lts-community
 ```
 
----
+> **Access SonarQube UI:** `http://<EC2-IP>:9000` (default credentials: admin/admin – change on first login).
 
+---
 
 ## Github Credentials to Store
 
@@ -174,3 +177,32 @@ docker run -d --name sonarqube \
 | Docker-username    | DOCKER_USERNAME   | your-docker-id   | From your Docker Hub profile       |
 | Docker-username    | DOCKER_PASSWORD   | token   | From your Docker Hub token       |
 | sonar-qube    | follow the same step | manully  entries
+
+
+---
+
+## **Pipeline Flow**
+1. **Push code** → GitHub Actions starts automatically.  
+2. Run **SonarQube scan** → Results go to SonarQube dashboard.  
+3. **Build Docker image** → Tag with commit ID.  
+4. **Push image to Docker Hub**.  
+5. **Send email** with build summary.  
+6. (Optional) **Deploy image on EC2**.
+
+---
+
+## **Key Features**
+- ✅ **Fully automated pipeline** using GitHub Actions.  
+- ✅ **SonarQube integration** for code quality checks.  
+- ✅ **Docker build & push** for containerized deployments.  
+- ✅ **Secure secrets management** using GitHub Secrets.  
+- ✅ **Email notifications** for real-time build updates.  
+
+---
+
+## **Outcome**
+By the end of this pipeline:
+- You have **clean, analyzed code** with SonarQube.
+- A **Docker image** of your app is available on Docker Hub.
+- Your team receives **real-time email updates**.
+- The pipeline mimics Jenkins but is **simpler and fully managed on GitHub Actions**.
