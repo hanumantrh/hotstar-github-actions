@@ -29,8 +29,6 @@ Here’s a step-by-step breakdown of what happens when you push code to this rep
 - SonarQube scans the code for **bugs, vulnerabilities, and code smells**.
 - Results are available in the SonarQube dashboard.
 
-> **Access SonarQube UI:** `http://<EC2-IP>:9000` (default credentials: admin/admin – change on first login).
-
 ---
 
 ### **3. Build Docker Image**
