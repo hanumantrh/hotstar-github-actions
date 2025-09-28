@@ -68,7 +68,6 @@ Developer → GitHub → GitHub Actions → SonarQube (EC2)
                                   EC2 Deployment
                                       ↓
                               Email Notification
-
 ```
 ---
 
