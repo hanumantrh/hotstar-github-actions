@@ -82,8 +82,6 @@ Developer → GitHub → GitHub Actions → SonarQube (EC2)
 - Docker Hub account for pushing images
 - Email account with app password for notifications
 
-
-
 ---
 
 ## Ports to Enable in Security Group
@@ -194,11 +192,11 @@ docker run -d --name sonarqube \
 ---
 
 ## **Key Features**
-- ✅ **Fully automated pipeline** using GitHub Actions.  
-- ✅ **SonarQube integration** for code quality checks.  
-- ✅ **Docker build & push** for containerized deployments.  
-- ✅ **Secure secrets management** using GitHub Secrets.  
-- ✅ **Email notifications** for real-time build updates.  
+- **Fully automated pipeline** using GitHub Actions.  
+- **SonarQube integration** for code quality checks.  
+- **Docker build & push** for containerized deployments.  
+- **Secure secrets management** using GitHub Secrets.  
+- **Email notifications** for real-time build updates.  
 
 ---
 
