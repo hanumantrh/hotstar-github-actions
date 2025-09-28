@@ -186,7 +186,7 @@ docker run -d --name sonarqube \
 3. **Build Docker image** → Tag with commit ID.  
 4. **Push image to Docker Hub**.  
 5. **Send email** with build summary.  
-6. (Optional) **Deploy image on EC2**.
+6. **Deploy image on EC2**.
 
 ---
 
