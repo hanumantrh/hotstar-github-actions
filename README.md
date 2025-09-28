@@ -56,6 +56,19 @@ Here’s a step-by-step breakdown of what happens when you push code to this rep
 
 ---
 
+## **Architecture**
+
+Developer → GitHub → GitHub Actions → SonarQube (EC2)
+                                      ↓
+                               Docker Build
+                                      ↓
+                               Docker Hub
+                                      ↓
+                                  EC2 Deployment
+                                      ↓
+                              Email Notification
+
+
 ## Table of Contents
 
 - [Ports to Enable in Security Group](#ports-to-enable-in-security-group)
