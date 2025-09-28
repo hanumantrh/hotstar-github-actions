@@ -1,0 +1,69 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repo
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # SonarQube Scan
+      - uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      # Set Docker Image Tag (use GitHub run number as build number)
+      - name: Set Docker Image Tag
+        run: echo "IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/hotstar:${{ github.run_number }}" >> $GITHUB_ENV
+
+      # Build Docker Image
+      - name: Build Docker Image
+        run: |
+          docker rmi -f hotstar $IMAGE_TAG || true
+          docker build -t hotstar .
+
+      # Login to DockerHub
+      - name: DockerHub Login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Tag & Push Docker Image
+      - name: Tag & Push Docker Image
+        run: |
+          docker tag hotstar $IMAGE_TAG
+          docker push $IMAGE_TAG
+          docker tag hotstar ${{ secrets.DOCKER_USERNAME }}/hotstar:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/hotstar:latest
+
+
+      # Send email notification
+      - name: Send Email Notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USER }}
+          password: ${{ secrets.EMAIL_PASS }}
+          subject: "Pipeline ${{ job.status }}: ${{ github.workflow }} #${{ github.run_number }}"
+          to: ${{ secrets.EMAIL_USER }}
+          from: ${{ secrets.EMAIL_USER }}
+          html_body: |
+            <p>This is a GitHub Actions Hotstar CICD pipeline status.</p>
+            <p>Workflow: ${{ github.workflow }}</p>
+            <p>Run Number: ${{ github.run_number }}</p>
+            <p>Status: ${{ job.status }}</p>
+            <p>Commit: ${{ github.sha }}</p>
+            <p>Triggered by: ${{ github.actor }}</p>
+            <p>Build URL: <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">
+              View Build</a></p>
