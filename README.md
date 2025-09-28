@@ -1,12 +1,59 @@
-# GitHub Actions Managed-Host Hotstar Website CICD DevOps — Setup Guide
+# CI/CD Pipeline with GitHub Actions, SonarQube, and Docker  
 
+## **Overview**
+This project demonstrates how to set up a **CI/CD pipeline** using **GitHub Actions** with **managed runners**.  
 
-This README collects useful commands and links to install common DevOps, CI/CD, and security tooling on Ubuntu systems. Always review commands for your environment and needs.
+The pipeline automates:  
+1. **Code Quality Check** → Using **SonarQube**.  
+2. **Docker Build & Push** → Builds the application image and pushes it to **Docker Hub**.  
+3. **Email Notifications** → Sends build status notifications via email.  
 
-> **Note:** Replace all `<VERSION>`, `<your-server-ip>`, `<jenkins-ip>`, `<sonar-ip-address>`, `<ACCOUNT_ID>`, and similar placeholders with your actual values.
+Everything runs **directly on GitHub Actions** (no Jenkins required), while **SonarQube runs on an AWS EC2 instance**.
 
 ---
 ![img alt](https://github.com/hanumantrh/gitHub-action-hotstar/blob/main/image.png?raw=true)
+---
+
+---
+
+## **How It Works**
+Here’s a step-by-step breakdown of what happens when you push code to this repository:
+
+### **1. Code Push → GitHub Actions Trigger**
+- Whenever you **push code**, GitHub Actions automatically starts the pipeline defined in `.github/workflows/manage.yml`.
+
+---
+
+### **2. Code Quality Analysis with SonarQube**
+- GitHub Actions connects to **SonarQube**, which is running on an **AWS EC2 instance**.
+- SonarQube scans the code for **bugs, vulnerabilities, and code smells**.
+- Results are available in the SonarQube dashboard.
+
+---
+
+### **3. Build Docker Image**
+- GitHub Actions **builds a Docker image** of your application using a **multi-stage Dockerfile** (for optimized image size).
+- The image is **tagged** with the latest commit ID for tracking.
+
+---
+
+### **4. Push Docker Image to Docker Hub**
+- After a successful build, the image is **pushed to Docker Hub**.
+- Authentication is handled securely using **GitHub Secrets** (no plain passwords).
+
+---
+
+### **5. Deployment on EC2 (Optional)**
+- EC2 can **pull the Docker image** from Docker Hub and run it as a container for testing or production.
+
+---
+
+### **6. Email Notification**
+- Once the pipeline completes, an **email is sent** with:
+  - Build status (Success/Failure)
+  - Commit ID
+  - Logs or relevant details  
+
 ---
 
 ## Table of Contents
