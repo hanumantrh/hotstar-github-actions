@@ -71,6 +71,7 @@ Developer → GitHub → GitHub Actions → SonarQube (EC2)
                                       ↓
                               Email Notification
 
+```
 ---
 
 ## Prerequisites
