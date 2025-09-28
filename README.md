@@ -176,6 +176,18 @@ docker run -d --name sonarqube \
 | Docker-username    | DOCKER_PASSWORD   | token   | From your Docker Hub token       |
 | sonar-qube    | follow the same step | manully  entries
 
+---
+
+## Deploy image on EC2
+
+```bash
+docker pull <Docker-username>/hotstar:<tagname>
+docker iamges
+docker run -d -p 80:80 --name hotstar <Docker-username>/hotstar
+docker ps
+```
+
+> **Access Hotstar UI:** `http://<EC2-IP>`
 
 ---
 
